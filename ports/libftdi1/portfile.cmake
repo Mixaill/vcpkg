@@ -30,11 +30,17 @@ vcpkg_configure_cmake(
         -DCMAKE_DISABLE_FIND_PACKAGE_Libintl=ON
         -DCMAKE_DISABLE_FIND_PACKAGE_PythonLibs=ON
         -DCMAKE_DISABLE_FIND_PACKAGE_PythonInterp=ON
+        -DLIBFTDI_CMAKE_CONFIG_DIR="share/libftdi1" 
 )
 
 vcpkg_install_cmake()
 
-vcpkg_fixup_cmake_targets(CONFIG_PATH lib/cmake/libftdi1 TARGET_PATH share/libftdi1)
+vcpkg_fixup_cmake_targets()
+
+#replace ${_INPUT_PREFIX} with ${CMAKE_CURRENT_LIST_DIR}/../..
+file(READ "${CURRENT_PACKAGES_DIR}/share/libftdi1/LibFTDI1Config.cmake" ftdiconfig)
+string(REPLACE "_IMPORT_PREFIX}" "CMAKE_CURRENT_LIST_DIR}/../.." ftdiconfig "${ftdiconfig}")
+file(WRITE  "${CURRENT_PACKAGES_DIR}/share/libftdi1/LibFTDI1Config.cmake" "${ftdiconfig}")
 
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/include ${CURRENT_PACKAGES_DIR}/debug/share)
 
