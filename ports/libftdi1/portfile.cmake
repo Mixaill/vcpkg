@@ -10,6 +10,7 @@ vcpkg_extract_source_archive_ex(
     REF 1.4
     PATCHES
         cmake-fix.patch
+        cmake-module-libusb.patch
         win32.patch
 )
 
@@ -30,6 +31,7 @@ vcpkg_configure_cmake(
         -DCMAKE_DISABLE_FIND_PACKAGE_Libintl=ON
         -DCMAKE_DISABLE_FIND_PACKAGE_PythonLibs=ON
         -DCMAKE_DISABLE_FIND_PACKAGE_PythonInterp=ON
+        -DLIBFTDI_CMAKE_CONFIG_DIR="share/libftdi1"
 )
 
 vcpkg_install_cmake()
